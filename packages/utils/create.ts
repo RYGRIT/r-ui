@@ -15,15 +15,15 @@ function _bem(prefixName: string, block: string, el: string, mod: string) {
 }
 
 function createBEM(prefixName: string) {
-  const b = (block: string) => _bem(prefixName, block, '', '');
-  const e = (el: string) => el ? _bem(prefixName, '', el, '') : '';
-  const m = (mod: string) => mod ? _bem(prefixName, '', '', mod) : '';
-  const be = (block: string, el: string) => block && el ? _bem(prefixName, block, el, '') : '';
-  const em = (el: string, mod: string) => el && mod ? _bem(prefixName, '', el, mod) : '';
-  const bm = (block: string, mod: string) => block && mod ? _bem(prefixName, block, '', mod) : '';
-  const bem = (block: string, el: string, mod: string) => block && el && mod ? _bem(prefixName, block, el, mod) : '';
+  const b = (block = '') => _bem(prefixName, block, '', '');
+  const e = (el = '') => el ? _bem(prefixName, '', el, '') : '';
+  const m = (mod = '') => mod ? _bem(prefixName, '', '', mod) : '';
+  const be = (block = '', el = '') => block && el ? _bem(prefixName, block, el, '') : '';
+  const em = (el = '', mod = '') => el && mod ? _bem(prefixName, '', el, mod) : '';
+  const bm = (block = '', mod = '') => block && mod ? _bem(prefixName, block, '', mod) : '';
+  const bem = (block = '', el = '', mod = '') => block && el && mod ? _bem(prefixName, block, el, mod) : '';
 
-  const is = (name: string, state) => state ? `is-${name}` : '';
+  const is = (name: string, state: string | boolean) => state ? `is-${name}` : '';
 
   return {
     b,
