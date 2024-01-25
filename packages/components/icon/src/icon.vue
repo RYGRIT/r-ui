@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { createNameSpace } from '@r-ui/utils/create';
-import { iconProps } from './icon';
+import { computed } from 'vue'
+import { createNameSpace } from '@r-ui/utils/create'
+import { iconProps } from './icon'
 
 defineOptions({
   name: 'RIcon'

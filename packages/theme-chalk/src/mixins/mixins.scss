@@ -1,5 +1,5 @@
-@use "config" as *;
-@forward "config";
+@use 'config' as *;
+@forward 'config';
 
 @mixin b($block) {
   $B: $namespace + '-' + $block;
@@ -18,7 +18,7 @@
 
 @mixin m($mod) {
   @at-root {
-    #{&+$mod-separator + $mod} {
+    #{& + $mod-separator + $mod} {
       @content;
     }
   }
@@ -31,4 +31,3 @@
     }
   }
 }
-

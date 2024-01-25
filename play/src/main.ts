@@ -1,16 +1,14 @@
-import { createApp } from 'vue'
-import Icon from "@r-ui/components/icon"
-import App from './App.vue'
+import { createApp } from 'vue';
+import Icon from '@r-ui/components/icon';
+import App from './App.vue';
 
-import "@r-ui/theme-chalk/src/index.scss"
+import '@r-ui/theme-chalk/src/index.scss';
 
-const plugins = [
-  Icon
-]
+const plugins = [Icon];
 
-const app = createApp(App)
+const app = createApp(App);
 
 plugins.forEach(plugin => {
-  app.use(plugin)
-})
-app.mount('#app')
+  app.use(plugin);
+});
+app.mount('#app');

@@ -1,13 +1,14 @@
-import { Plugin } from "vue";
+import { Plugin } from 'vue'
 
-export type SFCWithInstall<T> = T & Plugin;
+export type SFCWithInstall<T> = T & Plugin
 
 export function withInstall<T>(component: T) {
-  (component as SFCWithInstall<T>).install = function(app) {
-    const { name }  = component as unknown as { name: string };
+  // eslint-disable-next-line no-extra-semi
+  ;(component as SFCWithInstall<T>).install = function (app) {
+    const { name } = component as unknown as { name: string }
     // 注册全局组件
-    app.component(name, component);
-  };
+    app.component(name, component)
+  }
 
-  return component as SFCWithInstall<T>;
+  return component as SFCWithInstall<T>
 }
