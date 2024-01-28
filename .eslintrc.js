@@ -27,6 +27,11 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'vue'],
   rules: {
-    'no-extra-semi': 'off'
+    /*
+      off - 0
+      warn - 1
+      error - 2
+    */
+    'no-extra-semi': 0 // 存在于 eslint:recommended 中 https://github.com/eslint/eslint/blob/v8.56.0/packages/js/src/configs/eslint-recommended.js#L37
   }
 }
