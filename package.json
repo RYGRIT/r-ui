@@ -22,7 +22,6 @@
     "@typescript-eslint/parser": "^6.19.1",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.20.1",
-    "sass": "^1.70.0",
-    "unplugin-vue-define-options": "^1.4.2"
+    "sass": "^1.70.0"
   }
 }
