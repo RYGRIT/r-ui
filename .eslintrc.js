@@ -32,6 +32,7 @@ module.exports = {
       warn - 1
       error - 2
     */
-    'no-extra-semi': 0 // 存在于 eslint:recommended 中 https://github.com/eslint/eslint/blob/v8.56.0/packages/js/src/configs/eslint-recommended.js#L37
+    'no-extra-semi': 0, // 存在于 eslint:recommended 中 https://github.com/eslint/eslint/blob/v8.56.0/packages/js/src/configs/eslint-recommended.js#L37
+    'prefer-const': [2, { destructuring: 'all' }]
   }
 }
