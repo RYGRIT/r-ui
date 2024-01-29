@@ -40,4 +40,16 @@ export const treeProps = {
   }
 } as const
 
+export const treeNodeProps = {
+  node: {
+    type: Object as PropType<TreeNode>,
+    required: true
+  },
+  expanded: {
+    type: Boolean,
+    required: true
+  }
+} as const
+
 export type TreeProps = Partial<ExtractPropTypes<typeof treeProps>>
+export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>

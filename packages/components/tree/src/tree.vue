@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
+import { createNameSpace } from '@r-ui/utils/create'
+
 import { TreeNode, TreeOption, treeProps } from './tree'
-import { computed } from 'vue'
+import RTreeNode from './tree-node.vue'
 
 defineOptions({
   name: 'RTree'
 })
 
 const props = defineProps(treeProps)
+
+const ns = createNameSpace('tree')
 
 // 格式化用户传入的数据
 const tree = ref<TreeNode[]>([])
@@ -97,7 +101,18 @@ const flattenTree = computed(() => {
   return flattenNodes
 })
 
-console.log(flattenTree.value)
+function isExpanded(node: TreeNode): boolean {
+  return defaultExpandedKeys.value.has(node.key)
+}
 </script>
 
-<template>Tree</template>
+<template>
+  <div :class="ns.b()">
+    <r-tree-node
+      v-for="node in flattenTree"
+      :key="node.key"
+      :node="node"
+      :expanded="isExpanded(node)"
+    />
+  </div>
+</template>

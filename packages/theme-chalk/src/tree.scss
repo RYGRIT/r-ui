@@ -1,0 +1,19 @@
+@use 'mixins/mixins.scss' as *;
+
+@include b('tree') {
+}
+
+@include b('tree-node') {
+  cursor: pointer;
+  &:hover {
+    background-color: #f5f7fa;
+  }
+
+  @include e('expand-icon') {
+    transform: rotate(0deg);
+    transition: transform 0.3s linear;
+    &.expanded {
+      transform: rotate(90deg);
+    }
+  }
+}
