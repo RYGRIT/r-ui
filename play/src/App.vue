@@ -35,7 +35,13 @@ function createLabel(level: number): string {
     <AddCircle />
   </r-icon>
 
-  <r-tree :data="data" label-field="label" key-field="id" children="children"></r-tree>
+  <r-tree
+    :data="data"
+    :default-expanded-keys="['40', '41', '4030']"
+    label-field="label"
+    key-field="id"
+    children="children"
+  ></r-tree>
 </template>
 
 <style scoped></style>

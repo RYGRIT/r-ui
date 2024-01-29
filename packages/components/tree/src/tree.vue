@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { TreeNode, TreeOption, treeProps } from './tree'
+import { computed } from 'vue'
 
 defineOptions({
   name: 'RTree'
@@ -30,7 +31,7 @@ const treeOptions = createOptions(props.keyField, props.labelField, props.childr
 const createTree = (data: TreeOption[]): TreeNode[] => {
   function traversal(data: TreeOption[], parent: TreeNode | null = null): TreeNode[] {
     return data.map(node => {
-      let children = treeOptions.getChildren(node)
+      const children = treeOptions.getChildren(node)
       const treeNode: TreeNode = {
         key: treeOptions.getKey(node),
         label: treeOptions.getLabel(node),
@@ -60,7 +61,43 @@ watch(
   { immediate: true }
 )
 
-console.log(tree.value)
+// 将一棵树拍平
+// 默认展开第一层
+// 需要默认展开的 key
+const defaultExpandedKeys = ref(new Set(props.defaultExpandedKeys))
+
+const flattenTree = computed(() => {
+  const expandedKeys = defaultExpandedKeys.value
+  // 最终拍平的节点
+  const flattenNodes: TreeNode[] = []
+
+  // 被格式化后的节点
+  const nodes = tree.value || []
+
+  // 用于深度优先遍历的栈
+  const stack: TreeNode[] = []
+
+  for (let i = nodes.length - 1; i >= 0; i--) {
+    stack.push(nodes[i])
+  }
+
+  while (stack.length) {
+    const node = stack.pop()
+    if (!node) continue
+    flattenNodes.push(node)
+    if (expandedKeys.has(node.key)) {
+      const children = node.children
+      if (children.length === 0) return
+      for (let i = children.length - 1; i >= 0; i--) {
+        stack.push(children[i])
+      }
+    }
+  }
+
+  return flattenNodes
+})
+
+console.log(flattenTree.value)
 </script>
 
 <template>Tree</template>
