@@ -91,9 +91,10 @@ const flattenTree = computed(() => {
     flattenNodes.push(node)
     if (expandedKeys.has(node.key)) {
       const children = node.children
-      if (children.length === 0) return
-      for (let i = children.length - 1; i >= 0; i--) {
-        stack.push(children[i])
+      if (children.length) {
+        for (let i = children.length - 1; i >= 0; i--) {
+          stack.push(children[i])
+        }
       }
     }
   }
@@ -104,6 +105,26 @@ const flattenTree = computed(() => {
 function isExpanded(node: TreeNode): boolean {
   return defaultExpandedKeys.value.has(node.key)
 }
+
+function collapse(node: TreeNode) {
+  const expandedKeys = defaultExpandedKeys.value
+  expandedKeys.delete(node.key)
+}
+
+function expand(node: TreeNode) {
+  const expandedKeys = defaultExpandedKeys.value
+  expandedKeys.add(node.key)
+}
+
+// 切换展开折叠
+function toggleExpand(node: TreeNode) {
+  const expandedKeys = defaultExpandedKeys.value
+  if (expandedKeys.has(node.key)) {
+    collapse(node)
+  } else {
+    expand(node)
+  }
+}
 </script>
 
 <template>
@@ -113,6 +134,7 @@ function isExpanded(node: TreeNode): boolean {
       :key="node.key"
       :node="node"
       :expanded="isExpanded(node)"
+      @toggle="toggleExpand(node)"
     />
   </div>
 </template>
