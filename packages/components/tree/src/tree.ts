@@ -37,7 +37,8 @@ export const treeProps = {
   children: {
     type: String,
     default: 'children'
-  }
+  },
+  onLoad: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>
 } as const
 
 export const treeNodeProps = {
@@ -47,6 +48,10 @@ export const treeNodeProps = {
   },
   expanded: {
     type: Boolean,
+    required: true
+  },
+  loadingKeys: {
+    type: Set as PropType<Set<Key>>,
     required: true
   }
 } as const

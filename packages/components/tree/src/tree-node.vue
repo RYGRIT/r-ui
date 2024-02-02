@@ -1,17 +1,23 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { createNameSpace } from '@r-ui/utils/create'
 
 import SwitcherIcon from './icon/switcher'
+import Loading from './icon/Loading'
 import { type TreeNodeEmits, treeNodeProps } from './tree'
 
 defineOptions({
   name: 'RTreeNode'
 })
 
-const { node, expanded } = defineProps(treeNodeProps)
+const { node, expanded, loadingKeys } = defineProps(treeNodeProps)
 const emit = defineEmits<TreeNodeEmits>()
 
 const ns = createNameSpace('tree-node')
+
+const isLoading = computed(() => {
+  return loadingKeys.has(node.key)
+})
 
 function handleExpand() {
   emit('toggle', node)
@@ -35,6 +41,9 @@ function handleExpand() {
         <switcher-icon />
       </r-icon>
       <span :class="ns.e('label')">{{ node?.label }}</span>
+      <r-icon v-if="isLoading" :class="ns.e('loading-icon')">
+        <loading />
+      </r-icon>
     </div>
   </div>
 </template>

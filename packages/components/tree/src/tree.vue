@@ -2,7 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import { createNameSpace } from '@r-ui/utils/create'
 
-import { TreeNode, TreeOption, treeProps } from './tree'
+import { Key, TreeNode, TreeOption, treeProps } from './tree'
 import RTreeNode from './tree-node.vue'
 
 defineOptions({
@@ -32,10 +32,10 @@ function createOptions(key: string, label: string, children: string) {
 
 const treeOptions = createOptions(props.keyField, props.labelField, props.children)
 
-const createTree = (data: TreeOption[]): TreeNode[] => {
+const createTree = (data: TreeOption[], parent: TreeNode | null = null): TreeNode[] => {
   function traversal(data: TreeOption[], parent: TreeNode | null = null): TreeNode[] {
     return data.map(node => {
-      const children = treeOptions.getChildren(node)
+      const children = treeOptions.getChildren(node) || []
       const treeNode: TreeNode = {
         key: treeOptions.getKey(node),
         label: treeOptions.getLabel(node),
@@ -53,7 +53,7 @@ const createTree = (data: TreeOption[]): TreeNode[] => {
     })
   }
 
-  const res = traversal(data)
+  const res = traversal(data, parent)
   return res
 }
 
@@ -106,6 +106,25 @@ function isExpanded(node: TreeNode): boolean {
   return defaultExpandedKeys.value.has(node.key)
 }
 
+const loadingKeysRef = ref(new Set<Key>())
+
+async function triggerLoading(node: TreeNode) {
+  if (!node.children.length && !node.isLeaf) {
+    // 正在加载
+    if (!loadingKeysRef.value.has(node.key)) {
+      loadingKeysRef.value.add(node.key)
+
+      if (props.onLoad) {
+        const children = await props.onLoad(node.rawNode)
+        node.rawNode.children = children
+        // 更新自定义的 node
+        node.children = createTree(children, node)
+        loadingKeysRef.value.delete(node.key)
+      }
+    }
+  }
+}
+
 function collapse(node: TreeNode) {
   const expandedKeys = defaultExpandedKeys.value
   expandedKeys.delete(node.key)
@@ -114,12 +133,14 @@ function collapse(node: TreeNode) {
 function expand(node: TreeNode) {
   const expandedKeys = defaultExpandedKeys.value
   expandedKeys.add(node.key)
+  // 实现加载数据
+  triggerLoading(node)
 }
 
 // 切换展开折叠
 function toggleExpand(node: TreeNode) {
   const expandedKeys = defaultExpandedKeys.value
-  if (expandedKeys.has(node.key)) {
+  if (expandedKeys.has(node.key) && !loadingKeysRef.value.has(node.key)) {
     collapse(node)
   } else {
     expand(node)
@@ -134,6 +155,7 @@ function toggleExpand(node: TreeNode) {
       :key="node.key"
       :node="node"
       :expanded="isExpanded(node)"
+      :loading-keys="loadingKeysRef"
       @toggle="toggleExpand(node)"
     />
   </div>

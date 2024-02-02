@@ -27,4 +27,15 @@
       cursor: default;
     }
   }
+
+  @include e('loading-icon') {
+    margin-left: auto;
+    animation: loading-rotate 2s linear infinite;
+  }
+}
+
+@keyframes loading-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
 }
