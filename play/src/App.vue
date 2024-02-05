@@ -76,6 +76,15 @@ function handleLoad(node: TreeOption) {
 
   <!-- <r-tree :data="data" label-field="label" key-field="id" children="children"></r-tree> -->
   <r-tree :data="data" :on-load="handleLoad" />
+
+  <r-button size="medium" type="danger" :round="true" :disabled="true">
+    按钮
+    <template #icon>
+      <r-icon>
+        <AddCircle />
+      </r-icon>
+    </template>
+  </r-button>
 </template>
 
 <style scoped></style>
